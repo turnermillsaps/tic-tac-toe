@@ -42,20 +42,52 @@ function promptUser() {
     var value = prompt("Enter either 'X' or 'O'");
 
     if (board[parseInt(row)][parseInt(column)] != "") {
-        var row = prompt("That row/column already has a value, please enter a valid row");
-        var column = prompt("Now enter a new column");
+        alert("That row/column already has a value, please enter a valid row");
+        alert("Now enter a new column");
     }
 
     if (value != "X" && value != "O") {
-        var value = prompt("The value entered is neither X or O, please enter either character");
+        alert("The value entered is neither X or O, please enter either character");
     }
 
     setValue(row, column, value);
+    checkProgress(board);
     setCurrentPlayer();
-    console.log("The next player is" + currentPlayer);
+    alert("The next player is" + currentPlayer);
 }
 
 // Write a function that looks at the tic-tac-toe board and decides who's won the game
 function checkProgress(board) {
-    
+    // Admittedly inspired by Adam's solution on this part as I overcomplicated the possible win conditions in my head and couldn't figure out how to do it
+    var possibleWins = [
+        board[0][0] + board[0][1] + board[0][2],
+        board[1][0] + board[1][1] + board[1][2],
+        board[2][0] + board[2][1] + board[2][2],
+        board[0][0] + board[1][0] + board[2][0],
+        board[0][1] + board[1][1] + board[2][1],
+        board[0][2] + board[1][2] + board[2][2],
+        board[0][0] + board[1][1] + board[2][2],
+        board[0][2] + board[1][1] + board[2][0]
+    ];
+
+    for (var i = 0; i < possibleWins.length; i++) {
+        if (possibleWins[i] == "XXX" || possibleWins == "OOO") {
+            return true;
+        }
+    }
+
+    return false;
+}
+
+
+// Write a loop that asks for user input until someone wins the game
+
+while (checkProgress(board) == false) {
+    promptUser();
+}
+
+if (currentPlayer == currentTurn[0]) {
+    alert("Player " + currentPlayer + " wins!");
+} else {
+    alert("Player " + currentPlayer + " wins!");
 }
